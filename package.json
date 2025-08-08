@@ -8,7 +8,9 @@
     "format:write": "prettier --write \"**/*.{css,js,json,jsx,ts,tsx}\"",
     "format": "prettier \"**/*.{css,js,json,jsx,ts,tsx}\"",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "vitest run --coverage",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "@clerk/nextjs": "^5.6.2",
@@ -42,12 +44,27 @@
     "@tailwindcss/line-clamp": "^0.4.4",
     "@tailwindcss/typography": "^0.5.10",
     "@types/ms": "^0.7.32",
+    "@vitest/coverage-v8": "^3.2.4",
     "autoprefixer": "^10.4.16",
     "concurrently": "^7.6.0",
     "postcss": "^8.4.31",
     "prettier": "^2.8.8",
     "prettier-plugin-tailwindcss": "^0.2.8",
-    "tailwindcss": "^3.3.3"
+    "tailwindcss": "^3.3.3",
+    "vitest": "^3.2.4"
   },
-  "packageManager": "pnpm@9.3.0+sha512.ee7b93e0c2bd11409c6424f92b866f31d3ea1bef5fbe47d3c7500cdc3c9668833d2e55681ad66df5b640c61fa9dc25d546efa54d76d7f8bf54b13614ac293631"
+  "packageManager": "pnpm@9.3.0+sha512.ee7b93e0c2bd11409c6424f92b866f31d3ea1bef5fbe47d3c7500cdc3c9668833d2e55681ad66df5b640c61fa9dc25d546efa54d76d7f8bf54b13614ac293631",
+  "vitest": {
+    "test": {
+      "globals": true,
+      "environment": "node",
+      "include": ["lib/**/*.test.ts", "**/*.test.ts"],
+      "exclude": ["node_modules", ".next", "dist"]
+    },
+    "coverage": {
+      "provider": "v8",
+      "reportsDirectory": "./coverage",
+      "reporter": ["text", "html"]
+    }
+  }
 }
