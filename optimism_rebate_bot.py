@@ -235,6 +235,7 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--gas-price-wei", default=str(cfg.GAS_PRICE_WEI))
     p.add_argument("--chain-id", default=str(cfg.CHAIN_ID))
     p.add_argument("--log", default="log.txt")
+    p.add_argument("--oneshot", action="store_true", help="Run a single forward and backward swap, then exit")
     return p.parse_args()
 
 
@@ -261,6 +262,16 @@ def main() -> None:
     amount = Decimal(str(args.amount))
     slippage = Decimal(str(args.slippage))
     sleep_s = int(args.sleep)
+
+    if args.oneshot:
+        try:
+            bot.log("Starting oneshot: A→B")
+            bot.run_once(amount_human=amount, forward=True, slippage_percent=slippage)
+            bot.log("Starting oneshot: B→A")
+            bot.run_once(amount_human=amount, forward=False, slippage_percent=slippage)
+        except Exception as e:
+            bot.log(f"Unhandled error in oneshot: {e}")
+        return
 
     # Alternate direction each loop (A->B then B->A)
     forward = True
